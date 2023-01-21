@@ -1,8 +1,8 @@
 let questions = [
     {
         'title': 'How do you write "Hello World" in an alert box?',
-        'choices': [': alert("Hello World);', ': msg("Hello World);', ': msgBox("Hello World);', ': alertBox("Hello World);'],
-        'answer': ': alert("Hello World);'
+        'choices': [': alert("Hello World");', ': msg("Hello World");', ': msgBox("Hello World");', ': alertBox("Hello World");'],
+        'answer': ': alert("Hello World");'
     },
     {
         'title': 'How do you add a comment in a JavaScript?',
