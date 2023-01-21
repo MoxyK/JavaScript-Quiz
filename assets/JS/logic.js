@@ -11,9 +11,6 @@ let intialEl = document.getElementById('intitials');
     let submitButton = document.getElementById('submit');
 
 // On click: begin 2 min timer and start quiz w/ first question
-function getQuestion() {
-
-}
 
 function clickQuestion() {
     // When answer 'clicked/submitted' 
@@ -21,10 +18,34 @@ function clickQuestion() {
 
         // next question appears
 
-    // 'If' answer incorrect then subtract 15 sec from timer
+    // 'If' answer incorrect then subtract 10 sec from timer
+}
+
+function getQuestion() {
+    let currentQuestion = questions[currentQuestionIndex];
+
+    let questionTitleEl = document.getElementById('question-title');
+        
+    questionTitleEl.textContent = currentQuestion.title;
+
+    choicesEl.innerHTML = '';
+
+    currentQuestion.choices.forEach(function(choice, index) {
+        let choiceButton = document.createElement('button');
+        choiceButton.setAttribute('class', 'choice');
+        choiceButton.setAttribute('value', choice);
+
+        choiceButton.textContent = index + 1 + choice;
+
+        choiceButton.addEventListener('click', clickQuestion);
+
+        choicesEl.append(choiceButton);
+    })
 }
 
 function startQuiz() {
+    getQuestion();
+    startTimer();
     let startScreenEl = document.getElementById('start-screen');
     startScreenEl.setAttribute('class', 'hide');
 
@@ -32,7 +53,7 @@ function startQuiz() {
 }
 
 // Timer Function
-let timeLeft = 120;
+let timeLeft = 150;
 function startTimer() {
 
     let timerInterval = setInterval(function () {
@@ -46,12 +67,6 @@ function startTimer() {
     }, 1000);
 }
 
-// Start Button
-startButton.onclick = function () {
-    startTimer();
-    return;
-};
-
 function sendMessage() {
     timeEl.textContent = 'Out of Time';
 }
@@ -61,6 +76,7 @@ function sendMessage() {
 // 'If' timer reaches 0, game ends
 
     // When game ends
+    
 function quizGameEnd() {
     clearInterval(timerInterval);
 
@@ -85,12 +101,13 @@ function userEnter() {
 
 }
 
-intialEl.onkeyup = function () {
-    userEnter();
-};
+// Start Button
+startButton.addEventListener('click', startQuiz);
 
 // Submit Button
 submitButton.onclick = function () {
     saveHighScore();
     return;
 };
+
+intialEl.addEventListener('keyup', userEnter);
