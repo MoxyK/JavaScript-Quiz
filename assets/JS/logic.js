@@ -100,13 +100,14 @@ function sendMessage() {
     // When game ends
     
 function quizGameEnd() {
-    clearInterval(timerInterval);
+    clearInterval(timeLeft);
 
     let endScreenEl = document.getElementById('end-screen');
     endScreenEl.removeAttribute('class');
 
     let finalScoreEl = document.getElementById('final-score');
     finalScoreEl.textContent = timeEl;
+    
 
     questionsEl.setAttribute('class','hide');
 }
