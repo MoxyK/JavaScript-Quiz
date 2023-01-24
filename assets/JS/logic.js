@@ -5,20 +5,42 @@ let timeEl = document.querySelector('#time');
 let intialEl = document.getElementById('intitials');
     // Questions related variables
     let currentQuestionIndex = 0;
-    let qTime = questions.length * 15;
+    let time = questions.length * 15;
     let questionsEl = document.getElementById('questions');
     let choicesEl = document.getElementById('choices');
     let submitButton = document.getElementById('submit');
+    let feedbackEl = document.getElementById('feedback');
 
 // On click: begin 2 min timer and start quiz w/ first question
 
 function clickQuestion() {
+    if (this.value !== questions[currentQuestionIndex].answer) {
+        timeLeft -= 10;
+        if(timeLeft < 0) {
+            timeLeft = 0;
+        }
+    // 'If' answer incorrect then subtract 10 sec from timer
+        timeEl.textContent = timeLeft;
+        feedbackEl.textContent = 'Wrong'
+    } else {
+        feedbackEl.textContent = 'Correct'
+    }
     // When answer 'clicked/submitted' 
         // Alert correct/incorrect
+    feedbackEl.setAttribute('class', 'feedback');
 
+   setTimeout(function() {
+    feedbackEl.setAttribute('class', 'feedback', 'hide')
+   }, 1000);
+
+   currentQuestionIndex++;
         // next question appears
+   if(currentQuestionIndex === questions.length) {
+    quizGameEnd();
+   } else
+   getQuestion();
 
-    // 'If' answer incorrect then subtract 10 sec from timer
+
 }
 
 function getQuestion() {
@@ -94,10 +116,26 @@ function quizGameEnd() {
 // Offer option to save initials and score to local storage
 
 function saveHighScore() {
+    let initials = intialEl.value.trim();
 
+    if(initials !== ''){
+        let highScores = JSON.parse(localStorage.getItem('Highscores')) || [];
+        let newScore = {
+            score: time,
+            initials: initials
+        }
+    
+        highScores.push(newScore);
+        localStorage.setItem('Highscores', JSON.stringify(highScores));
+
+        window.location.href = 'highscores.html';
+    }
 }
 
-function userEnter() {
+function userEnter(event) {
+    if(event.key === 'Enter') {
+        saveHighScore();
+    }
 
 }
 
